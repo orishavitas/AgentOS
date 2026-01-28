@@ -1,0 +1,18 @@
+{
+  "agentos": {
+    "schema_version": "0.1",
+    "template_version": "{{TEMPLATE_VERSION}}",
+    "generated_at": "{{DATE}}"
+  },
+  "project": {
+    "name": "{{PROJECT_NAME}}",
+    "goal": "{{PROJECT_GOAL}}",
+    "preset": "{{PRESET}}",
+    "stack": "{{STACK}}",
+    "agents": "{{AGENTS}}"
+  },
+  "generator": {
+    "source_repo": "AgentOS",
+    "command": "{{GENERATOR_COMMAND}}"
+  }
+}
