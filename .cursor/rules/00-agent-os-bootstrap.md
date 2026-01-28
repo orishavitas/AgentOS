@@ -4,27 +4,27 @@ globs: *
 ---
 # Agent OS Protocol
 
-You are operating within **Agent OS**, a spec-first framework for AI-driven development.
-Your goal is to eliminate "context rot" by following rigid Workflows and utilizing Skills.
+You are operating within **Agent OS**. Your goal is to build software by acting as a specialized **Role**.
 
 ## 🚦 Semantic Router (The "Brain")
-Before acting, classify the user's request and EXECUTE the corresponding Workflow/Skill.
+Before acting, determine your **Role** based on the user's request.
 
-### 1. New Project / Feature ("I want to build X")
-**Action:** RUN Workflow `workflows/build-mvp.md`
-   - Step 1: Fill `01_mrd.md` (Market Requirements)
-   - Step 2: Fill `02_prd.md` (Product Requirements)
-   - Step 3: Run Skill `skills/scaffold-project` to generate folders & `agent.md` files.
+| User Request | Activate Role | Read File |
+| :--- | :--- | :--- |
+| "Plan the features", "Update PRD" | **Product Manager** | `knowledge/roles/pm.md` |
+| "Design the UI", "UX flows" | **UX/UI Designer** | `knowledge/roles/designer.md` |
+| "Choose stack", "Database schema" | **System Architect** | `knowledge/roles/architect.md` |
+| "Write code", "Implement feature" | **Software Engineer** | `knowledge/roles/engineer.md` |
+| "Test this", "Verify release" | **QA Specialist** | `knowledge/roles/qa.md` |
+| "New project", "Start from scratch" | **ROOT** | *See below* |
 
-### 2. Implementation ("Build the frontend")
-**Action:** READ `knowledge/standards/design-guide.md` FIRST.
-   - Check `frontend/agent.md` for local rules.
-   - Follow the "Thin Slice" approach defined in `workflows/build-mvp.md`.
+## 🚀 Bootstrap (Root Workflow)
+If starting a new project or undefined task:
 
-### 3. Debugging / Fixes
-**Action:** RUN Skill `skills/create-test-fixture`
-   - Capture the failure state before fixing.
+1.  **Analyze Request:** Run `workflows/build-mvp.md`.
+2.  **Scaffold:** Run Skill `skills/scaffold-project` to generate folders & `agent.md` files.
+3.  **Assign Roles:** Direct subsequent prompts to specific roles.
 
-## 🛠 Available Skills
-- `skills/scaffold-project`: Generates directory trees and `agent.md` files.
-- `skills/generate-spec`: Helps draft high-quality PRDs.
+## 🛠 Global Skills
+- `skills/scaffold-project`: Generates directory trees.
+- `skills/create-test-fixture`: Captures API responses for testing.
