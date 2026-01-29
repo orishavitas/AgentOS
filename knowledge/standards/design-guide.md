@@ -140,15 +140,15 @@ Include a short rule such as:
 - Prefer “copy as-is” templates over generating content in code.
 
 ### 6.2 Placeholders
-- Use double braces: `{PLACEHOLDER}`
+- Use double braces: `{{PLACEHOLDER}}`
 - Keep placeholder names **UPPER_SNAKE_CASE**
 - Common placeholders:
-  - `{PROJECT_NAME}`
-  - `{PROJECT_GOAL}`
-  - `{PRESET}`
-  - `{STACK}`
-  - `{AGENTS}`
-  - `{DATE}`
+  - `{{PROJECT_NAME}}`
+  - `{{PROJECT_GOAL}}`
+  - `{{PRESET}}`
+  - `{{STACK}}`
+  - `{{AGENTS}}`
+  - `{{DATE}}`
 
 ### 6.3 Placeholder safety
 - Templates must still read sensibly if placeholders are not yet filled.
