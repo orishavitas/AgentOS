@@ -96,6 +96,34 @@ function requiredPathsForPreset(preset) {
     ];
   }
 
+  if (preset === "automation") {
+    return [
+      "README.md",
+      "agentos.json",
+      path.join("docs", "PRD.md"),
+      path.join("docs", "Roadmap.md"),
+      path.join("docs", "Architecture.md"),
+      path.join("docs", "agent.md"),
+      path.join("workflows", "agent.md"),
+      path.join("integrations", "agent.md"),
+      path.join("tests", "agent.md"),
+    ];
+  }
+
+  if (preset === "library") {
+    return [
+      "README.md",
+      "agentos.json",
+      path.join("docs", "PRD.md"),
+      path.join("docs", "Roadmap.md"),
+      path.join("docs", "Architecture.md"),
+      path.join("docs", "agent.md"),
+      path.join("src", "agent.md"),
+      path.join("examples", "agent.md"),
+      path.join("tests", "agent.md"),
+    ];
+  }
+
   const err = new Error(`No validator rules for preset "${preset}" yet.`);
   err.code = "UNKNOWN_PRESET_RULES";
   throw err;
