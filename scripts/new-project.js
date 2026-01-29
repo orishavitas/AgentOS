@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const readline = require("readline");
 
 const {
   ensureDir,
@@ -10,6 +11,7 @@ const {
   isFile,
   listFilesRecursive,
   pathExists,
+  writeFile,
 } = require("./lib/fs");
 const { findUnresolvedPlaceholders, renderString } = require("./lib/render");
 const { getPresetTemplateDir } = require("./lib/presets");
@@ -27,7 +29,7 @@ function todayISO() {
 function usage() {
   return [
     "Usage:",
-    "  node scripts/new-project.js <project-name> --preset <preset> --agents <comma-list> [--goal <text>] [--stack <text>] [--dest <path>] [--in-place] [--force]",
+    "  node scripts/new-project.js <project-name> --preset <preset> --agents <comma-list> [--goal <text>] [--stack <text>] [--dest <path>] [--in-place] [--force] [--dry-run] [--interactive]",
     "",
     "Examples:",
     "  node scripts/new-project.js my-app --preset app --agents sw,design,pm,qa",
@@ -45,6 +47,8 @@ function parseArgs(argv) {
     dest: null,
     inPlace: false,
     force: false,
+    dryRun: false,
+    interactive: false,
     help: false,
   };
 
@@ -65,6 +69,16 @@ function parseArgs(argv) {
 
     if (a === "--force") {
       out.force = true;
+      continue;
+    }
+
+    if (a === "--dry-run") {
+      out.dryRun = true;
+      continue;
+    }
+
+    if (a === "--interactive") {
+      out.interactive = true;
       continue;
     }
 
@@ -109,18 +123,18 @@ function isTextTemplate(filePath) {
   return false;
 }
 
-async function writeFileFromTemplate({ srcFile, destFile, data, force }) {
-  if (pathExists(destFile) && !force) {
+async function writeFileFromTemplate({ srcFile, destFile, data, force, dryRun }) {
+  if (pathExists(destFile) && !force && !dryRun) {
     const err = new Error(`Refusing to overwrite existing file: ${destFile}`);
     err.code = "WOULD_OVERWRITE";
     throw err;
   }
 
-  await ensureDir(path.dirname(destFile));
+  await ensureDir(path.dirname(destFile), dryRun);
 
   const buf = await fs.promises.readFile(srcFile);
   if (!isTextTemplate(srcFile)) {
-    await fs.promises.writeFile(destFile, buf);
+    await writeFile(destFile, buf, dryRun);
     return;
   }
 
@@ -136,15 +150,50 @@ async function writeFileFromTemplate({ srcFile, destFile, data, force }) {
     err.code = "UNRESOLVED_PLACEHOLDERS";
     throw err;
   }
-  await fs.promises.writeFile(destFile, rendered, "utf8");
+  await writeFile(destFile, rendered, dryRun);
 }
 
-async function copyTemplateTree({ templateRoot, destRoot, data, force }) {
+async function copyTemplateTree({ templateRoot, destRoot, data, force, dryRun }) {
   const files = await listFilesRecursive(templateRoot);
   for (const absSrc of files) {
     const rel = path.relative(templateRoot, absSrc);
     const absDest = path.join(destRoot, rel);
-    await writeFileFromTemplate({ srcFile: absSrc, destFile: absDest, data, force });
+    await writeFileFromTemplate({ srcFile: absSrc, destFile: absDest, data, force, dryRun });
+  }
+}
+
+async function promptForMissingArgs(args) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const ask = (q) => new Promise((resolve) => rl.question(q, (ans) => resolve(ans.trim())));
+
+  try {
+    if (!args.projectName) {
+      while (!args.projectName) {
+        args.projectName = await ask("Project Name: ");
+      }
+    }
+
+    if (!args.preset) {
+      args.preset = await ask("Preset (default: app): ") || "app";
+    }
+
+    if (!args.agentsRaw) {
+      args.agentsRaw = await ask("Agents (comma-separated, e.g. sw,design): ");
+    }
+
+    if (!args.goal) {
+      args.goal = await ask("Goal (optional): ");
+    }
+
+    if (!args.stack) {
+      args.stack = await ask("Stack (optional): ");
+    }
+  } finally {
+    rl.close();
   }
 }
 
@@ -153,6 +202,14 @@ async function main() {
   if (args.help) {
     console.log(usage());
     process.exit(0);
+  }
+
+  // Interactive mode if requested or if missing args
+  if (args.interactive || !args.projectName || !args.preset || !args.agentsRaw) {
+    if (!args.interactive) {
+      console.log("Missing required arguments. Entering interactive mode...");
+    }
+    await promptForMissingArgs(args);
   }
 
   if (!args.projectName) throw new Error(`Missing <project-name>\n\n${usage()}`);
@@ -185,7 +242,7 @@ async function main() {
       );
     }
   } else {
-    await ensureDir(destRoot);
+    await ensureDir(destRoot, args.dryRun);
   }
 
   const presetTemplateDir = getPresetTemplateDir(args.preset);
@@ -209,6 +266,7 @@ async function main() {
     destRoot,
     data,
     force: args.force,
+    dryRun: args.dryRun,
   });
 
   // Always include agentos.json at the repo root.
@@ -219,9 +277,14 @@ async function main() {
     destFile: destAgentosJson,
     data,
     force: args.force,
+    dryRun: args.dryRun,
   });
 
-  console.log(`Scaffolded "${args.projectName}" at:\n${destRoot}`);
+  if (args.dryRun) {
+    console.log(`[DRY RUN] Finished simulation for "${args.projectName}"`);
+  } else {
+    console.log(`Scaffolded "${args.projectName}" at:\n${destRoot}`);
+  }
 }
 
 main().catch((err) => {

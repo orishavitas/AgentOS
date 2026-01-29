@@ -10,8 +10,20 @@ async function statSafe(p) {
   }
 }
 
-async function ensureDir(dirPath) {
+async function ensureDir(dirPath, dryRun = false) {
+  if (dryRun) {
+    console.log(`[DRY RUN] Would create directory: ${dirPath}`);
+    return;
+  }
   await fs.promises.mkdir(dirPath, { recursive: true });
+}
+
+async function writeFile(filePath, content, dryRun = false) {
+  if (dryRun) {
+    console.log(`[DRY RUN] Would write file: ${filePath}`);
+    return;
+  }
+  await fs.promises.writeFile(filePath, content, "utf8");
 }
 
 async function listFilesRecursive(rootDir) {
@@ -65,5 +77,6 @@ module.exports = {
   isDirectory,
   isFile,
   isDirectoryEmpty,
+  writeFile,
 };
 
