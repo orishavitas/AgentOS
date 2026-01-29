@@ -1,60 +1,30 @@
-\# Populate Project (Deterministic)
+# Populate (deterministic) — generated project output
 
+This doc describes how AgentOS “population” works in v1: **copy templates + render placeholders** to produce an agent-ready repo.
 
+## Inputs
+- Requirements SSOT (AgentOS repo): `docs/internal/PRD_AgentOS.md`
+- Preset templates: `templates/presets/<preset>/...`
+- Shared config template: `templates/common/agentos.json`
+- CLI: `scripts/new-project.js`
 
-\## Inputs
+## Rendering rules (v1)
+- Placeholders use double braces: `{{PLACEHOLDER}}`
+- Render in text files: `.md`, `.txt`, `.json`, `.yml`, `.yaml`, `.env`, `.env.example`
+- Validation must fail if any `{{...}}` remain in the output
 
-\- project.seed.yaml
+## Output requirements (v1 `app`)
+Generated project must include:
+- Core docs (non-empty):
+  - `docs/PRD.md`, `docs/Roadmap.md`, `docs/Architecture.md`, `docs/QA-Plan.md`
+- Per-directory `agent.md` (non-empty):
+  - `docs/agent.md`, `frontend/agent.md`, `backend/agent.md`, `shared/agent.md`, `design/agent.md`, `tests/agent.md`, `scripts/agent.md`
+- Config:
+  - `agentos.json` capturing scaffold configuration
 
-\- agent-os/templates/\*
+## Recommended check
 
-\- agent-os/docs/agent-os/\* (rules)
-
-
-
-\## Limiters
-
-Use limiters from project.seed.yaml:
-
-\- max\_questions
-
-\- max\_rounds
-
-Only ask blocking questions.
-
-
-
-\## Output requirements
-
-Generate or update these files with REAL content (no placeholders):
-
-1\) docs/state.md
-
-2\) docs/decisions.md
-
-3\) docs/roadmap.md
-
-4\) docs/MRD.md (use templates/mrd.template.md)
-
-5\) docs/PRD.md (use templates/prd.template.md)
-
-6\) agents/\*/agent.md for:
-
-&nbsp;  - orchestrator, product, design, engineering, qa, security
-
-7\) docs/tasks/<role>/01\_bootstrap\_tasks.md for each role (task packets)
-
-
-
-\### Rules
-
-\- Stable headings, stable ordering.
-
-\- Include sections: Assumptions, Known unknowns, Definition of Done.
-
-\- No extra files unless explicitly listed in seed deliverables.
-
-\- Make tasks executable (file paths, commands, acceptance criteria).
-
-
-
+```bash
+node scripts/new-project.js demo-app --preset app --agents sw,design,pm,qa --dest .\tmp\demo-app
+node scripts/validate-scaffold.js .\tmp\demo-app
+```

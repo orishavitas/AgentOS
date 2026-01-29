@@ -118,7 +118,7 @@ For workflow-heavy builds:
 For reusable packages:
 - `src/`, `examples/`, `tests/`, `docs/`, `scripts/`
 
-> v1 ships with `app` fully wired end-to-end; others can be added/expanded.
+> v1 ships with `app` fully wired end-to-end; others can be added/expanded once templates + validation rules exist.
 
 ---
 
@@ -148,13 +148,16 @@ Common placeholders (v1):
 - `{{STACK}}`
 - `{{AGENTS}}`
 - `{{DATE}}`
+- `{{REPO_NAME}}` (optional)
+- `{{TEMPLATE_VERSION}}`
+- `{{GENERATOR_COMMAND}}`
 
 ---
 
 ## Safety / overwrite behavior
 
 - Default behavior: **do not overwrite** files if the destination exists.
-- Use `--force` (planned/required) to overwrite existing files.
+- Use `--force` to overwrite existing files.
 
 ---
 
@@ -165,7 +168,7 @@ Common placeholders (v1):
    templates/presets/<preset-name>/
    ```
 2. Add directories and template files inside it (including `agent.md` where needed).
-3. Register it in `scripts/lib/presets.js` (or equivalent mapping).
+3. Update validation rules in `scripts/validate-scaffold.js` so required files are enforced for the new preset.
 
 ---
 
@@ -202,4 +205,4 @@ No. It’s just files + templates + a generator script. Any coding agent can use
 ---
 
 ## Project docs
-- PRD for this scaffolder: see `docs/` in the generated projects (or keep the PRD alongside this repo if you prefer).
+- PRD for the **AgentOS scaffolder**: `docs/internal/PRD_AgentOS.md`

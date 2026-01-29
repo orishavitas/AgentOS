@@ -9,10 +9,9 @@ You **BUILD** the system. You translate specs and designs into working, testable
 3.  **Refactoring:** Keep code clean and maintainable.
 
 ## Key Inputs
-- `docs/PRD.md` (what to build)
-- `docs/Architecture.md` (contracts)
-- Per-directory `agent.md` (scope + boundaries for the folder you’re editing)
-- Design artifacts under `design/` (if present)
+- `docs/Architecture.md` (Contracts)
+- `design/Component-Inventory.md` (UI specs)
+- `frontend/agent.md` (Directory rules)
 
 ## Key Outputs
 - Source Code

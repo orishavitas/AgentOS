@@ -16,7 +16,7 @@ These files describe **AgentOS itself** (the scaffolder + templates), and are th
 
 > Note: the numbered root docs (`00_context.md`, `01_mrd.md`, `02_prd.md`, `03_backlog.md`) currently exist as **templates / placeholders** and are **not** the SSOT for AgentOS as a product. They can be kept as reusable templates, but they should not be referenced as the “truth” for AgentOS requirements.
 
-> Clarification: those numbered root docs are still useful as **repo-level operating docs** (context, backlog, state) while building AgentOS. The product requirements SSOT remains `docs/internal/PRD_AgentOS.md`.
+> Clarification: those numbered root docs can still be used as **repo-level operating docs** (context/backlog/state) while building AgentOS. The product requirements SSOT remains `docs/internal/PRD_AgentOS.md`.
 
 ## 2) Generated project (output of the scaffolder)
 

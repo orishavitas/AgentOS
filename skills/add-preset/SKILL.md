@@ -11,12 +11,11 @@ Add a new preset (e.g., `app`, `automation`, `library`) to the scaffolder in a w
 ## Inputs
 - `docs/internal/PRD_AgentOS.md` (required preset behavior)
 - `templates/common/agentos.json` (shared generated config)
-- `scripts/lib/presets.js` (preset discovery + errors)
-- `scripts/validate-scaffold.js` (preset-specific required paths)
+- `scripts/lib/presets.js` (preset registry)
 
 ## Outputs
 - `templates/presets/<preset>/...` (the template tree)
-- Updates to `scripts/validate-scaffold.js` (so the validator knows the preset’s required files)
+- Updates to `scripts/lib/presets.js`
 - (Optional) preset-specific docs in `docs/agent-os/` if behavior differs from other presets
 
 ## Steps
@@ -24,8 +23,10 @@ Add a new preset (e.g., `app`, `automation`, `library`) to the scaffolder in a w
 2. Add the required docs templates under `templates/presets/<preset>/docs/`:
    - `PRD.md`, `Roadmap.md`, `Architecture.md`, `QA-Plan.md` (unless the preset intentionally omits some).
 3. Add per-directory `agent.md` templates (for every directory the preset creates).
-4. Update `scripts/validate-scaffold.js`:
-   - Add preset rules in `requiredPathsForPreset(<preset>)` so validation covers the new tree.
+4. Register the preset in `scripts/lib/presets.js`:
+   - define the directory tree
+   - define which template files are copied
+   - define which directories require an `agent.md`
 5. Validate by running the CLI for the new preset and then running the validator on the output.
 
 ## Done when

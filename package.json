@@ -1,0 +1,12 @@
+{
+  "name": "agentos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AgentOS scaffolder and templates",
+  "type": "commonjs",
+  "scripts": {
+    "new-project": "node scripts/new-project.js",
+    "validate-scaffold": "node scripts/validate-scaffold.js"
+  }
+}
+
