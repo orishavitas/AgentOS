@@ -32,6 +32,15 @@ node scripts/validate-scaffold.js .\tmp\my-app
 - `skills/`: repeatable playbooks for extending AgentOS (skills-first)
 - `docs/agent-os/`: repo-only operating model and documentation-layer guidance
 
+## External Skills (Skills.sh)
+AgentOS includes documentation for third-party Skills.sh skills.
+See `knowledge/skills-sh/` for UI/UX, docs, and optimization skill bundles.
+
+Install recommended skills:
+```bash
+node scripts/install-skills.js --all
+```
+
 ## Docs
 - **AgentOS requirements SSOT**: `docs/internal/PRD_AgentOS.md`
 - **Doc-layer split**: `docs/agent-os/03_repo-architecture.md`

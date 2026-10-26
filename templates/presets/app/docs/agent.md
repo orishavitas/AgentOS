@@ -26,3 +26,9 @@ Maintain the project’s source of truth docs (PRD, roadmap, architecture, QA pl
 2. Define one core flow and capture it in `docs/PRD.md` and `docs/Architecture.md`.
 3. Create a minimal checklist in `docs/QA-Plan.md`.
 
+## Recommended Skills (Skills.sh)
+For advanced documentation work, consider these external skills:
+- **Writing**: `writing-clearly-and-concisely`, `documentation-engineer`
+- **Office formats**: `pdf`, `docx`, `pptx`, `xlsx`
+
+See: `knowledge/skills-sh/document-production.md` in AgentOS for full guidance.

@@ -1,7 +1,7 @@
-# Graph Report - C:\Users\OriShavit\Documents\GitHub\AgentOS  (2026-05-06)
+# Graph Report - C:\Users\OriShavit\Documents\GitHub\AgentOS  (2026-05-07)
 
 ## Corpus Check
-- 10 files · ~22,183 words
+- 10 files · ~22,181 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -56,8 +56,8 @@ Cohesion: 0.6
 Nodes (5): getSkillsToInstall(), installSkill(), main(), parseArgs(), printUsage()
 
 ### Community 2 - "Community 2"
-Cohesion: 0.4
-Nodes (5): isTextTemplate(), parseArgs(), promptForMissingArgs(), todayISO(), usage()
+Cohesion: 0.67
+Nodes (5): main(), parseArgs(), promptForMissingArgs(), todayISO(), usage()
 
 ### Community 3 - "Community 3"
 Cohesion: 0.33
@@ -68,8 +68,8 @@ Cohesion: 0.47
 Nodes (5): isDirectory(), isDirectoryEmpty(), isFile(), statSafe(), writeFile()
 
 ### Community 5 - "Community 5"
-Cohesion: 0.83
-Nodes (4): ensureDir(), copyTemplateTree(), main(), writeFileFromTemplate()
+Cohesion: 0.5
+Nodes (4): ensureDir(), copyTemplateTree(), isTextTemplate(), writeFileFromTemplate()
 
 ### Community 6 - "Community 6"
 Cohesion: 0.67
@@ -98,9 +98,9 @@ Nodes (0):
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `main()` connect `Community 5` to `Community 0`, `Community 2`, `Community 4`, `Community 6`?**
+- **Why does `main()` connect `Community 2` to `Community 0`, `Community 4`, `Community 5`, `Community 6`?**
   _High betweenness centrality (0.271) - this node is a cross-community bridge._
-- **Why does `pathExists()` connect `Community 0` to `Community 4`, `Community 5`?**
+- **Why does `pathExists()` connect `Community 0` to `Community 2`, `Community 4`, `Community 5`?**
   _High betweenness centrality (0.161) - this node is a cross-community bridge._
 - **Why does `writeFileFromTemplate()` connect `Community 5` to `Community 0`, `Community 2`, `Community 3`, `Community 4`?**
   _High betweenness centrality (0.134) - this node is a cross-community bridge._
